@@ -553,25 +553,25 @@
     };
 </script>
 <script>
-    // 定義所有需要記憶的文字欄位 ID
-    const textFields = [
+    // 1. 定義需要記憶的欄位
+    // 文字/下拉類 (使用 value 存取)
+    const textAndSelectFields = [
         'email', '飼主姓名', '連絡電話', '身分證字號', '緊急聯絡人姓名', 
-        '緊急連絡電話', '寵物姓名', '品種', '寵物年齡', '就醫機構', 'chipNumberInput','chipSelect','寵物性別', '是否結紮',
+        '緊急連絡電話', '寵物姓名', '品種', '寵物性別', '是否結紮', 
+        '寵物年齡', 'chipSelect', 'chipNumberInput', '就醫機構'
     ];
 
-    // 定義所有需要記憶的選擇欄位 (Select, Radio, Checkbox)
-    // 注意：這裡直接抓取欄位的 id 或 name
-    const choiceFields = [
-        '寵物性別', '是否結紮', '晶片狀況', // Select
-        's1', 's2', 's3', 's4',           // 社交狀況 Checkbox
-        'e1', 'e2', 'e3',                 // 性情 Radio
-        'h1', 'h2', 'h3', 'h4', 'h5', 'h6', 'h7', 'h8', 'h9', 'h10' // 病史 Checkbox
+    // 勾選類 (使用 checked 存取: Checkbox & Radio)
+    const toggleFields = [
+        's1', 's2', 's3', 's4', // 社交狀況
+        'e1', 'e2', 'e3',       // 性情評估
+        'h1', 'h2', 'h3', 'h4', 'h5', 'h6', 'h7', 'h8', 'h9', 'h10' // 病史
     ];
 
-    // 1. 頁面載入時：自動填入舊資料
+    // 2. 頁面載入時：自動回復資料
     window.addEventListener('load', function() {
-        // 處理文字與下拉選單
-        textFields.concat(['寵物性別', '是否結紮', '晶片狀況']).forEach(id => {
+        // 回復文字與下拉選單
+        textAndSelectFields.forEach(id => {
             const savedValue = localStorage.getItem(id);
             const element = document.getElementById(id);
             if (savedValue !== null && element) {
@@ -579,41 +579,40 @@
             }
         });
 
-        // 處理 Checkbox 與 Radio (根據 checked 狀態)
-        choiceFields.forEach(id => {
+        // 回復勾選狀態 (需轉回布林值)
+        toggleFields.forEach(id => {
             const savedValue = localStorage.getItem(id);
             const element = document.getElementById(id);
-            if (element && (element.type === 'checkbox' || element.type === 'radio')) {
+            if (element) {
                 element.checked = (savedValue === 'true');
             }
         });
         
-        // 觸發顯示/隱藏邏輯
+        // 額外處理：根據回復的晶片狀況決定是否顯示號碼輸入框
         if (typeof toggleChipInput === "function") {
             toggleChipInput();
         }
     });
 
-    // 2. 表單提交時：儲存資料
-    // 我們改用監聽 submit 事件來統一儲存
+    // 3. 表單提交時：儲存資料
+    // 修改：直接監聽 form 的 submit 事件，確保按下提交按鈕時觸發
     document.getElementById("mainForm").addEventListener("submit", function() {
-        // 儲存文字與下拉值
-        textFields.concat(['寵物性別', '是否結紮', '晶片狀況']).forEach(id => {
+        // 儲存文字與下拉
+        textAndSelectFields.forEach(id => {
             const element = document.getElementById(id);
             if (element) {
                 localStorage.setItem(id, element.value);
             }
         });
 
-        // 儲存 Checkbox 與 Radio 的狀態
-        choiceFields.forEach(id => {
+        // 儲存勾選狀態
+        toggleFields.forEach(id => {
             const element = document.getElementById(id);
             if (element) {
                 localStorage.setItem(id, element.checked);
             }
         });
     });
-
 </script>
 <script>
     const backToTopBtn = document.getElementById("backToTop");
