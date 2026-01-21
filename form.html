@@ -167,9 +167,9 @@
 
                     <form action="https://formspree.io/f/mreeaage" method="POST" id="mainForm">
 
-<input type="hidden" name="_next" value="https://libre1204-source.github.io/mao_grooming/index.html">
 
-<input type="hidden" name="_subject" value="新寵物美容預約通知"> 
+
+
   
 <button type="button" class="btn btn-sm btn-link text-secondary" onclick="localStorage.clear(); location.reload();">
     清除已儲存的個人資料
@@ -613,5 +613,47 @@
         document.querySelector('input[name="其他服務說明"]').focus();
     }
 });</script>
+<script>var form = document.getElementById("mainForm");
+
+async function handleSubmit(event) {
+    event.preventDefault(); // 防止表單預設的跳轉行為
+    
+    // 如果你有簽名板，記得在送出前先處理簽名資料
+    if (signaturePad && !signaturePad.isEmpty()) {
+        document.getElementById("signature-data").value = signaturePad.toDataURL();
+    } else {
+        alert("請提供數位簽名");
+        return;
+    }
+
+    var data = new FormData(event.target);
+    
+    // 使用 fetch 傳送資料到 Formspree
+    fetch(event.target.action, {
+        method: form.method,
+        body: data,
+        headers: {
+            'Accept': 'application/json'
+        }
+    }).then(response => {
+        if (response.ok) {
+            // 成功後顯示訊息並跳轉
+            alert("預約成功！即將返回首頁。");
+            window.location.href = "index.html"; 
+        } else {
+            response.json().then(data => {
+                if (Object.hasOwn(data, 'errors')) {
+                    alert(data["errors"].map(error => error["message"]).join(", "));
+                } else {
+                    alert("哎呀！提交時發生錯誤，請稍後再試。");
+                }
+            })
+        }
+    }).catch(error => {
+        alert("提交發生錯誤，請檢查網路連線。");
+    });
+}
+
+form.addEventListener("submit", handleSubmit);</script>
 </body>
 </html>
