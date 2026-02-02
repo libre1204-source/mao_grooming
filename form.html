@@ -11,7 +11,8 @@
         .section-padding { padding:60px 0 ; }/*表單與四周的距離*/
         .form-card { border: none; border-radius: 30px; box-shadow: 0 10px 30px rgba(0,0,0,0.1); }/*表單框*/
         .section-title { letter-spacing: 2px; padding-left: 15px; margin-bottom: 1.5rem; font-weight: 700; }/*四大標題*/
-        .signature-pad { border: 2px dashed #ccc; border-radius: 5px; background: #fff; width: 100%; height: 200px; cursor: crosshair; }/*簽名框*/
+        .signature-pad { border: 2px dashed #ccc; border-radius: 5px; background: #fff; width: 100%; height: 200px; cursor: crosshair;/* 關鍵：防止手機瀏覽器在簽名時捲動畫面 */
+    touch-action: none;}/*簽名框*/
         .modal-body-scroll { max-height: 400px; overflow-y: auto; font-size: 0.95rem; line-height: 1.6; }/*彈跳視窗的滾動*/
         /* 通用卡片樣式 */
 .service-card {
@@ -515,6 +516,26 @@
     // 簽名板邏輯
     const canvas = document.getElementById("signature-pad");
     const signaturePad = new SignaturePad(canvas);
+// 修正：調整 Canvas 解析度以解決座標位移問題
+function resizeCanvas() {
+    // 獲取裝置像素比，避免模糊與偏移
+    const ratio = Math.max(window.devicePixelRatio || 1, 1);
+    
+    // 將 canvas 的內部解析度調整為與顯示大小一致
+    canvas.width = canvas.offsetWidth * ratio;
+    canvas.height = canvas.offsetHeight * ratio;
+    
+    // 縮放繪圖上下文以匹配解析度
+    canvas.getContext("2d").scale(ratio, ratio);
+    
+    // 調整大小後會清除畫布，如果你希望保留簽名，需另行處理
+    signaturePad.clear(); 
+}
+
+// 初始化與視窗縮放時都執行一次
+window.addEventListener("resize", resizeCanvas);
+resizeCanvas();
+
     document.getElementById("clear-sig").onclick = () => signaturePad.clear();
 
     document.getElementById("mainForm").onsubmit = function(e) {
