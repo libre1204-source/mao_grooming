@@ -337,6 +337,10 @@
                                     請點擊詳閱 <a href="#" data-bs-toggle="modal" data-bs-target="#modalRisk">【高風險寵物美容風險告知】</a> *
                                 </label>
                             </div>
+			    <div class="mb-3">
+                                <span>本契約條款已於 <input type="date" name="審閱日期" id="reviewDate" class="form-control form-control-sm d-inline-block" style="width: auto;" required> 經甲方審閱完成。 *</span>
+                            </div>
+
                             <div class="mb-3">
                                 <label class="form-label fw-bold">最後請提供數位簽名 *</label>
                                 <canvas id="signature-pad" class="signature-pad"></canvas>
@@ -567,12 +571,11 @@ resizeCanvas();
     };
 </script>
 <script>
-    // 1. 定義需要記憶的欄位
-    // 文字/下拉類 (使用 value 存取)
+   // 1. 定義需要記憶的欄位 (新增 'reviewDate')
     const textAndSelectFields = [
         'email', '飼主姓名', '連絡電話', '身分證字號', '緊急聯絡人姓名', 
         '緊急連絡電話', '寵物姓名', '品種', '寵物性別', '是否結紮', 
-        '寵物年齡', 'chipSelect', 'chipNumberInput', '就醫機構'
+        '寵物年齡', 'chipSelect', 'chipNumberInput', '就醫機構', 'reviewDate'
     ];
 
     // 勾選類 (使用 checked 存取: Checkbox & Radio)
@@ -593,6 +596,13 @@ resizeCanvas();
             }
         });
 
+        // 如果審閱日期尚未填寫過，預設自動帶入「今天」
+        const dateInput = document.getElementById('reviewDate');
+        if (dateInput && !dateInput.value) {
+            const today = new Date().toISOString().split('T')[0];
+            dateInput.value = today;
+        }
+
         // 回復勾選狀態 (需轉回布林值)
         toggleFields.forEach(id => {
             const savedValue = localStorage.getItem(id);
@@ -602,16 +612,13 @@ resizeCanvas();
             }
         });
         
-        // 額外處理：根據回復的晶片狀況決定是否顯示號碼輸入框
         if (typeof toggleChipInput === "function") {
             toggleChipInput();
         }
     });
 
     // 3. 表單提交時：儲存資料
-    // 修改：直接監聽 form 的 submit 事件，確保按下提交按鈕時觸發
     document.getElementById("mainForm").addEventListener("submit", function() {
-        // 儲存文字與下拉
         textAndSelectFields.forEach(id => {
             const element = document.getElementById(id);
             if (element) {
@@ -619,7 +626,6 @@ resizeCanvas();
             }
         });
 
-        // 儲存勾選狀態
         toggleFields.forEach(id => {
             const element = document.getElementById(id);
             if (element) {
