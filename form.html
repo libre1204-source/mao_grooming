@@ -325,18 +325,18 @@
 
                         <h3 class="section-title text-danger" style="border-left: 5px solid #dc3545;">四、法律條款與數位簽署</h3>
                         <div class="mb-4">
-                            <div class="form-check mb-3">
-                                <input class="form-check-input" type="checkbox" id="agree1" required disabled>
-                                <label class="form-check-label" for="agree1">
-                                    請點擊詳閱 <a href="#" data-bs-toggle="modal" data-bs-target="#modalTerms">【犬、貓美容契約條款】</a> *
-                                </label>
-                            </div>
-                            <div class="form-check mb-3">
-                                <input class="form-check-input" type="checkbox" id="agree2" required disabled>
-                                <label class="form-check-label" for="agree2">
-                                    請點擊詳閱 <a href="#" data-bs-toggle="modal" data-bs-target="#modalRisk">【高風險寵物美容風險告知】</a> *
-                                </label>
-                            </div>
+<div class="form-check mb-3">
+    <input class="form-check-input" type="checkbox" name="已同意美容契約條款" value="是" id="agree1" required disabled>
+    <label class="form-check-label" for="agree1">
+        請點擊詳閱 <a href="#" data-bs-toggle="modal" data-bs-target="#modalTerms">【犬、貓美容契約條款】</a> *
+    </label>
+</div>
+<div class="form-check mb-3">
+    <input class="form-check-input" type="checkbox" name="已同意高風險風險告知" value="是" id="agree2" required disabled>
+    <label class="form-check-label" for="agree2">
+        請點擊詳閱 <a href="#" data-bs-toggle="modal" data-bs-target="#modalRisk">【高風險寵物美容風險告知】</a> *
+    </label>
+</div>
 			    <div class="mb-3">
                                 <span>本契約條款已於 <input type="date" name="審閱日期" id="reviewDate" class="form-control form-control-sm d-inline-block" style="width: auto;" required> 經甲方審閱完成。 *</span>
                             </div>
@@ -571,23 +571,23 @@ resizeCanvas();
     };
 </script>
 <script>
-   // 1. 定義需要記憶的欄位 (新增 'reviewDate')
+    // 1. 定義需要記憶的欄位
     const textAndSelectFields = [
         'email', '飼主姓名', '連絡電話', '身分證字號', '緊急聯絡人姓名', 
         '緊急連絡電話', '寵物姓名', '品種', '寵物性別', '是否結紮', 
         '寵物年齡', 'chipSelect', 'chipNumberInput', '就醫機構', 'reviewDate'
     ];
 
-    // 勾選類 (使用 checked 存取: Checkbox & Radio)
+    // 勾選類 (新增 'agree1', 'agree2')
     const toggleFields = [
-        's1', 's2', 's3', 's4', // 社交狀況
-        'e1', 'e2', 'e3',       // 性情評估
-        'h1', 'h2', 'h3', 'h4', 'h5', 'h6', 'h7', 'h8', 'h9', 'h10' // 病史
+        's1', 's2', 's3', 's4', 
+        'e1', 'e2', 'e3',       
+        'h1', 'h2', 'h3', 'h4', 'h5', 'h6', 'h7', 'h8', 'h9', 'h10',
+        'agree1', 'agree2' // <--- 新增此處
     ];
 
     // 2. 頁面載入時：自動回復資料
     window.addEventListener('load', function() {
-        // 回復文字與下拉選單
         textAndSelectFields.forEach(id => {
             const savedValue = localStorage.getItem(id);
             const element = document.getElementById(id);
@@ -596,19 +596,23 @@ resizeCanvas();
             }
         });
 
-        // 如果審閱日期尚未填寫過，預設自動帶入「今天」
+        // 預設審閱日期為今天
         const dateInput = document.getElementById('reviewDate');
         if (dateInput && !dateInput.value) {
             const today = new Date().toISOString().split('T')[0];
             dateInput.value = today;
         }
 
-        // 回復勾選狀態 (需轉回布林值)
+        // 回復勾選狀態
         toggleFields.forEach(id => {
             const savedValue = localStorage.getItem(id);
             const element = document.getElementById(id);
             if (element) {
                 element.checked = (savedValue === 'true');
+                // 若之前已勾選過條款，順便解除 disabled 狀態
+                if ((id === 'agree1' || id === 'agree2') && element.checked) {
+                    element.disabled = false;
+                }
             }
         });
         
@@ -634,6 +638,7 @@ resizeCanvas();
         });
     });
 </script>
+
 <script>
     const backToTopBtn = document.getElementById("backToTop");
 
