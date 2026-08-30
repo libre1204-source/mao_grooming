@@ -9,10 +9,13 @@
     <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+TC:wght@400;700&display=swap" rel="stylesheet">
 
     <style>
-        body {
+        html,body {
             font-family: '微軟正黑體', serif;
             color: #333;
 	    background-color: #D2CBBD;
+
+	max-width: 100%;
+    overflow-x: hidden;
         }
         /* 首頁大圖區 */
         .hero-section {
@@ -21,6 +24,7 @@
             background-size: cover;
             background-position: center;
             height: 100vh;
+width:100%;
             display: flex;
             align-items: center;
             justify-content: center;
@@ -106,7 +110,7 @@ function gtag_report_conversion(url) {
 
     <nav class="navbar navbar-expand-lg navbar-dark bg-dark sticky-top">
         <div class="container">
-            <a class="navbar-brand" href="#">毛小孩寵物生活館 | Mao_Grooming</a>
+            <a class="navbar-brand" href="#" style="font-size: clamp(1rem, 4vw,1.5rem);">毛小孩寵物生活館 | Mao_Grooming</a>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
                 <span class="navbar-toggler-icon"></span>
             </button>
@@ -122,14 +126,14 @@ function gtag_report_conversion(url) {
 
     <header class="hero-section">
         <div>
-            <h1 class="hero-title">溫馨 · 放鬆 · 細膩</h1>
+            <h1 class="hero-title"  style="font-size: clamp(3rem, 4vw, 6rem);">溫馨 · 放鬆 · 細膩</h1>
             <p class="fs-4">為毛孩打造專屬美學與放鬆時光的溫馨空間</p>
             <a href="#rooms" class="btn btn-lg btn-outline-light mt-3">服務詳情</a>
         </div>
     </header>
 
     <section id="about" class="container section-padding text-center">
-        <div class="row justify-content-center">
+        <div class="row justify-content-center" style="padding-left:5px;padding-right:5px;">
             <div class="col-md-8">
                 <h2 class="mb-4">關於毛小孩</h2>
                 <p class="lead text-muted">歡迎來到「毛小孩寵物生活館」，我們或許不是把毛孩剪得最華麗、最精緻的那一間，也不敢保證每一次都能洗出最完美的造型。<BR>
