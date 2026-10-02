@@ -163,10 +163,14 @@
                                 <label class="form-label">連絡電話 *</label>
                                 <input type="tel" name="連絡電話" id="連絡電話" class="form-control" required>
                             </div>
-                            <div class="col-12">
-                                <label class="form-label">身分證字號 (非必填)</label>
-                                <input type="text" name="身分證字號" id="身分證字號" class="form-control">
-                            </div>
+<div class="col-md-6">
+    <label class="form-label">身分證字號 (非必填)</label>
+    <input type="text" name="身分證字號" id="身分證字號" class="form-control">
+</div>
+<div class="col-md-6">
+    <label class="form-label">發票載具號碼 (非必填)</label>
+    <input type="text" name="發票載具號碼" id="發票載具號碼" class="form-control" placeholder="/手機條碼">
+</div>
                             <div class="col-md-6">
                                 <label class="form-label">緊急聯絡人姓名 *</label>
                                 <input type="text" name="緊急聯絡人姓名" id="緊急聯絡人姓名" class="form-control" required>
@@ -429,7 +433,7 @@
 
 攻擊行為：若過程中情緒過於緊張或有攻擊行為，將立即終止服務，不予收費。<BR></p>
 
-<p>逾時收費：美容完成後應於1.5小時內接回，逾時依安親費收費 (未滿一小時以一小時計)：<BR>
+<p>逾時收費：美容完成後應於1小時內接回，逾時依安親費收費 (未滿一小時以一小時計)：<BR>
 
 狗狗：50元／時<BR>
 貓咪：50元／時<BR>
@@ -590,10 +594,10 @@ resizeCanvas();
 <script>
     // 1. 定義需要記憶的欄位
     const textAndSelectFields = [
-        'email', '飼主姓名', '連絡電話', '身分證字號', '緊急聯絡人姓名', 
-        '緊急連絡電話', '寵物姓名', '品種', '寵物性別', '是否結紮', 
-        '寵物年齡', 'chipSelect', 'chipNumberInput', '就醫機構', 'reviewDate'
-    ];
+    'email', '飼主姓名', '連絡電話', '身分證字號', '發票載具號碼', '緊急聯絡人姓名', 
+    '緊急連絡電話', '寵物姓名', '品種', '寵物性別', '是否結紮', 
+    '寵物年齡', 'chipSelect', 'chipNumberInput', '就醫機構', 'reviewDate'
+];
 
     // 勾選類 (新增 'agree1', 'agree2')
     const toggleFields = [
